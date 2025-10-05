@@ -1,6 +1,12 @@
-@MailSender_HostAddress = http://localhost:5195
+@MailSender_HostAddress = https://localhost:7290
 
-GET {{MailSender_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{MailSender_HostAddress}}/api/email/send
+Content-Type: application/json
+
+{
+    "to": "fouquet.francois@gmail.com",
+    "subject": "Test depuis MailSender API",
+    "message": "Ceci est un message de test envoyé depuis l'API MailSender utilisant SMTP."
+}
 
 ###
