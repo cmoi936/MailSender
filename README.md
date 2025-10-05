@@ -1,16 +1,16 @@
-# ?? MailSender API
+﻿# 📧 MailSender API
 
 [![Build and Push Docker Image](https://github.com/cmoi936/MailSender/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/cmoi936/MailSender/actions/workflows/docker-publish.yml)
 [![Docker Image](https://img.shields.io/badge/docker-ghcr.io%2Fcmoi936%2Fmailsender-blue)](https://github.com/cmoi936/MailSender/pkgs/container/mailsender)
 
-Une API REST simple et efficace pour envoyer des emails via SMTP, construite avec .NET 8 et enti�rement containeris�e.
+Une API REST simple et efficace pour envoyer des emails via SMTP, construite avec .NET 8 et entièrement containerisée.
 
-## ?? D�marrage rapide avec Docker
+## 🚀 Démarrage rapide avec Docker
 
-### Option 1: Utiliser l'image pr�-construite (Recommand�)
+### Option 1: Utiliser l'image pré-construite (Recommandé)
 
 ```bash
-# T�l�charger et lancer en une commande
+# Télécharger et lancer en une commande
 docker run -d \
   --name mailsender-api \
   -p 5000:8080 \
@@ -31,10 +31,10 @@ cd MailSender
 2. **Configurez vos variables d'environnement** :
 ```bash
 cp .env.example .env
-# �ditez .env avec vos vraies valeurs SMTP
+# Éditez .env avec vos vraies valeurs SMTP
 ```
 
-3. **D�ployez** :
+3. **Déployez** :
 ```bash
 # Windows
 .\deploy.ps1
@@ -46,31 +46,31 @@ cp .env.example .env
 docker-compose -f docker-compose.production.yml up -d
 ```
 
-## ??? Images Docker disponibles
+## 🏗️ Images Docker disponibles
 
 | Tag | Description | Plateforme |
 |-----|-------------|------------|
-| `latest` | Derni�re version stable | `linux/amd64`, `linux/arm64` |
-| `v1.0.0` | Version tagu�e | `linux/amd64`, `linux/arm64` |
+| `latest` | Dernière version stable | `linux/amd64`, `linux/arm64` |
+| `v1.0.0` | Version taguée | `linux/amd64`, `linux/arm64` |
 | `master` | Branche master | `linux/amd64`, `linux/arm64` |
 
 Toutes les images sont disponibles sur : **`ghcr.io/cmoi936/mailsender`**
 
-## ?? Fonctionnalit�s
+## 📋 Fonctionnalités
 
-- ? **API REST** simple pour l'envoi d'emails
-- ? **Support SMTP** (Gmail, Outlook, etc.)
-- ? **Containeris�** avec Docker
-- ? **Multi-architecture** (AMD64, ARM64)
-- ? **Health checks** int�gr�s
-- ? **Support CC/BCC** (plusieurs destinataires)
-- ? **Messages HTML et texte**
-- ? **Logging** configur�
-- ? **S�curis�** (utilisateur non-root)
-- ? **CI/CD** automatis� avec GitHub Actions
-- ? **Documentation Swagger/OpenAPI**
+- ✅ **API REST** simple pour l'envoi d'emails
+- ✅ **Support SMTP** (Gmail, Outlook, etc.)
+- ✅ **Containerisé** avec Docker
+- ✅ **Multi-architecture** (AMD64, ARM64)
+- ✅ **Health checks** intégrés
+- ✅ **Support CC/BCC** (plusieurs destinataires)
+- ✅ **Messages HTML et texte**
+- ✅ **Logging** configuré
+- ✅ **Sécurisé** (utilisateur non-root)
+- ✅ **CI/CD** automatisé avec GitHub Actions
+- ✅ **Documentation Swagger/OpenAPI**
 
-## ?? Configuration
+## 🔧 Configuration
 
 ### Variables d'environnement requises
 
@@ -78,19 +78,19 @@ Toutes les images sont disponibles sur : **`ghcr.io/cmoi936/mailsender`**
 |----------|-------------|---------|
 | `SMTP__USERNAME` | Votre email SMTP | `user@gmail.com` |
 | `SMTP__PASSWORD` | Mot de passe d'application | `abcd efgh ijkl mnop` |
-| `SMTP__FROMEMAIL` | Email exp�diteur | `user@gmail.com` |
+| `SMTP__FROMEMAIL` | Email expéditeur | `user@gmail.com` |
 
 ### Variables optionnelles
 
-| Variable | D�faut | Description |
+| Variable | Défaut | Description |
 |----------|---------|-------------|
 | `SMTP__HOST` | `smtp.gmail.com` | Serveur SMTP |
 | `SMTP__PORT` | `587` | Port SMTP |
-| `SMTP__FROMNAME` | `MailSender API` | Nom exp�diteur |
+| `SMTP__FROMNAME` | `MailSender API` | Nom expéditeur |
 | `SMTP__USESSL` | `true` | Utiliser SSL/TLS |
 | `SMTP__TIMEOUTMS` | `30000` | Timeout en ms |
 
-### Configuration appsettings.json (d�veloppement local)
+### Configuration appsettings.json (développement local)
 
 ```json
 {
@@ -107,16 +107,16 @@ Toutes les images sont disponibles sur : **`ghcr.io/cmoi936/mailsender`**
 }
 ```
 
-## ?? Configuration Gmail
+## 🔐 Configuration Gmail
 
-1. **Activez l'authentification � 2 facteurs** sur votre compte Google
-2. **G�n�rez un mot de passe d'application** :
-   - Google Account ? S�curit� ? Authentification � 2 facteurs
-   - Mots de passe d'application ? Cr�er un nouveau mot de passe pour "MailSender"
-   - Copiez le mot de passe g�n�r� (16 caract�res)
+1. **Activez l'authentification à 2 facteurs** sur votre compte Google
+2. **Générez un mot de passe d'application** :
+   - Google Account → Sécurité → Authentification à 2 facteurs
+   - Mots de passe d'application → Créer un nouveau mot de passe pour "MailSender"
+   - Copiez le mot de passe généré (16 caractères)
    - Utilisez ce mot de passe dans `SMTP__PASSWORD`
 
-## ?? Utilisation de l'API
+## 📡 Utilisation de l'API
 
 ### Health Check
 ```bash
@@ -130,8 +130,8 @@ Content-Type: application/json
 
 {
   "to": "destinataire@example.com",
-  "cc": "copie@example.com", // optionnel (plusieurs emails s�par�s par ;
-  "bcc": "copie-cachee@example.com", // optionnel (plusieurs emails s�par�s par ;
+  "cc": "copie@example.com", // optionnel (plusieurs emails séparés par ;
+  "bcc": "copie-cachee@example.com", // optionnel (plusieurs emails séparés par ;
   "subject": "Hello from MailSender!",
   "message": "Ceci est un message de test."
 }
@@ -148,7 +148,7 @@ curl -X POST http://localhost:5000/api/email/send \
   }'
 ```
 
-## ??? D�veloppement local
+## 🛠️ Développement local
 
 ### Build avec .NET CLI
 ```bash
@@ -156,7 +156,7 @@ curl -X POST http://localhost:5000/api/email/send \
 git clone https://github.com/cmoi936/MailSender.git
 cd MailSender
 
-# Restaurer les d�pendances
+# Restaurer les dépendances
 dotnet restore
 
 # Build et run
@@ -178,53 +178,53 @@ docker run -p 5000:8080 mailsender-local
 ### Structure du projet
 ```
 MailSender/
-??? Controllers/         # Contr�leurs API
-??? Services/           # Services m�tier (EmailService)
-??? Models/             # Mod�les de donn�es (EmailRequest)
-??? Dockerfile          # Configuration Docker
-??? docker-compose.yml  # Configuration d�veloppement
-??? docker-compose.production.yml  # Configuration production
-??? .github/workflows/  # CI/CD GitHub Actions
-??? deploy.ps1         # Script de d�ploiement Windows
-??? deploy.sh          # Script de d�ploiement Linux/macOS
+├── Controllers/         # Contrôleurs API
+├── Services/           # Services métier (EmailService)
+├── Models/             # Modèles de données (EmailRequest)
+├── Dockerfile          # Configuration Docker
+├── docker-compose.yml  # Configuration développement
+├── docker-compose.production.yml  # Configuration production
+├── .github/workflows/  # CI/CD GitHub Actions
+├── deploy.ps1         # Script de déploiement Windows
+└── deploy.sh          # Script de déploiement Linux/macOS
 ```
 
-## ?? D�ploiement
+## 🚢 Déploiement
 
-### D�ploiement automatique
+### Déploiement automatique
 
 Le projet utilise **GitHub Actions** pour automatiser :
-- ? Build multi-architecture (AMD64, ARM64)
-- ? Tests automatis�s
-- ? Publication sur GitHub Container Registry
-- ? Signature cryptographique des images avec Cosign
-- ? Versioning automatique avec les tags Git
+- ✅ Build multi-architecture (AMD64, ARM64)
+- ✅ Tests automatisés
+- ✅ Publication sur GitHub Container Registry
+- ✅ Signature cryptographique des images avec Cosign
+- ✅ Versioning automatique avec les tags Git
 
-### Cr�er une nouvelle version
+### Créer une nouvelle version
 ```bash
-# Cr�er et pousser un tag
+# Créer et pousser un tag
 git tag v1.0.0
 git push origin v1.0.0
 
-# L'image sera automatiquement construite et publi�e sur ghcr.io
+# L'image sera automatiquement construite et publiée sur ghcr.io
 ```
 
-### D�ploiement manuel sur serveur
+### Déploiement manuel sur serveur
 ```bash
-# T�l�charger la derni�re version
+# Télécharger la dernière version
 docker pull ghcr.io/cmoi936/mailsender:latest
 
-# Utiliser le script de d�ploiement
+# Utiliser le script de déploiement
 .\deploy.ps1 latest
 
 # Ou Docker Compose directement
 docker-compose -f docker-compose.production.yml up -d
 ```
 
-## ?? Monitoring et Debugging
+## 📊 Monitoring et Debugging
 
 ```bash
-# Logs en temps r�el
+# Logs en temps réel
 docker logs -f mailsender-api
 
 # Statistiques de performance
@@ -233,44 +233,44 @@ docker stats mailsender-api
 # Health check
 curl http://localhost:5000/api/health
 
-# Acc�der � Swagger UI (en d�veloppement)
+# Accéder à Swagger UI (en développement)
 # http://localhost:5000/swagger
 ```
 
-## ?? S�curit�
+## 🚨 Sécurité
 
-- ? Utilisateur non-root dans le conteneur Docker
-- ? Variables d'environnement pour les secrets
-- ? Support HTTPS (configurable)
-- ? Images Docker sign�es cryptographiquement
-- ? Vuln�rabilit�s scann�es automatiquement
-- ?? **Important** : N'utilisez jamais votre mot de passe Gmail principal
-- ?? **Important** : Utilisez toujours des mots de passe d'application
+- ✅ Utilisateur non-root dans le conteneur Docker
+- ✅ Variables d'environnement pour les secrets
+- ✅ Support HTTPS (configurable)
+- ✅ Images Docker signées cryptographiquement
+- ✅ Vulnérabilités scannées automatiquement
+- ⚠️ **Important** : N'utilisez jamais votre mot de passe Gmail principal
+- ⚠️ **Important** : Utilisez toujours des mots de passe d'application
 
-## ?? Documentation compl�te
+## 📖 Documentation complète
 
-- ?? **Guide de d�ploiement Docker** : [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)
-- ?? **Images Docker** : [GitHub Container Registry](https://github.com/cmoi936/MailSender/pkgs/container/mailsender)
-- ?? **CI/CD Pipeline** : [GitHub Actions](https://github.com/cmoi936/MailSender/actions)
+- 📋 **Guide de déploiement Docker** : [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)
+- 🐳 **Images Docker** : [GitHub Container Registry](https://github.com/cmoi936/MailSender/pkgs/container/mailsender)
+- 🔧 **CI/CD Pipeline** : [GitHub Actions](https://github.com/cmoi936/MailSender/actions)
 
-## ?? Contribution
+## 🤝 Contribution
 
 1. Fork le projet
-2. Cr�ez une branche feature (`git checkout -b feature/AmazingFeature`)
+2. Créez une branche feature (`git checkout -b feature/AmazingFeature`)
 3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
 4. Push vers la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrez une Pull Request
 
-## ?? Support
+## 🆘 Support
 
-- ?? **Documentation** : Voir les fichiers de documentation dans le repo
-- ?? **Issues** : [GitHub Issues](https://github.com/cmoi936/MailSender/issues)
-- ?? **Discussions** : [GitHub Discussions](https://github.com/cmoi936/MailSender/discussions)
+- 📖 **Documentation** : Voir les fichiers de documentation dans le repo
+- 🐛 **Issues** : [GitHub Issues](https://github.com/cmoi936/MailSender/issues)
+- 💬 **Discussions** : [GitHub Discussions](https://github.com/cmoi936/MailSender/discussions)
 
-## ?? Licence
+## 📄 Licence
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de d�tails.
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ---
 
-**D�velopp� avec ?? et .NET 8**
+**Développé avec ❤️ et .NET 8**
