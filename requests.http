@@ -1,0 +1,35 @@
+### Health Check
+GET https://localhost:7000/api/health
+Accept: application/json
+
+### Send Simple Email
+POST https://localhost:7000/api/email/send
+Content-Type: application/json
+
+{
+  "to": "destinataire@example.com",
+  "subject": "Test depuis MailSender API",
+  "message": "Ceci est un message de test envoyé depuis l'API MailSender utilisant SMTP."
+}
+
+### Send Email with CC and BCC
+POST https://localhost:7000/api/email/send
+Content-Type: application/json
+
+{
+  "to": "destinataire@example.com",
+  "cc": "copie1@example.com;copie2@example.com",
+  "bcc": "copie-cachee@example.com",
+  "subject": "Test avec CC et BCC",
+  "message": "Ceci est un message de test avec copie et copie cachée.\n\nLe message supporte les retours à la ligne."
+}
+
+### Send Email with HTML-like content
+POST https://localhost:7000/api/email/send
+Content-Type: application/json
+
+{
+  "to": "destinataire@example.com",
+  "subject": "Test avec contenu formaté",
+  "message": "Bonjour,\n\nCeci est un message avec du contenu formaté :\n- Point 1\n- Point 2\n- Point 3\n\nCordialement,\nMailSender API"
+}
