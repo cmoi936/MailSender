@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches: [ "master", "main" ]
-    # Déclencher aussi sur les tags pour les versions
+    # Dï¿½clencher aussi sur les tags pour les versions
     tags: [ "v*.*.*" ]
   pull_request:
     branches: [ "master", "main" ]
@@ -20,7 +20,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-      # Ceci est utilisé pour compléter l'attestation d'identité
+      # Ceci est utilisï¿½ pour complï¿½ter l'attestation d'identitï¿½
       # avec les actions/attest-build-provenance
       id-token: write
 
@@ -32,7 +32,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@v3
         with:
-          cosign-release: 'v2.1.1'
+          cosign-release: 'v2.4.1'
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -47,7 +47,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Extraire les métadonnées (tags, labels) pour Docker
+      # Extraire les mï¿½tadonnï¿½es (tags, labels) pour Docker
       # https://github.com/docker/metadata-action
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -79,9 +79,12 @@ jobs:
       # https://github.com/sigstore/cosign
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
+        continue-on-error: true
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
           TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        # Cette étape utilise l'identité basée sur OIDC du signataire pour signer l'image du conteneur.
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+        # Cette Ã©tape utilise l'identitÃ© basÃ©e sur OIDC du signataire pour signer l'image du conteneur.
+        run: |
+          echo "Signing Docker images..."
+          echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
