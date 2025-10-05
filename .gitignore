@@ -362,5 +362,37 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# MailSender specific
 /appsettings.Development.json
+
+# Environment variables and secrets
 /.env*
+!.env.example
+
+# Docker volumes and data
+/docker-data/
+/volumes/
+
+# Logs
+/logs/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backup files
+*.bak
+*.backup
+*.tmp
