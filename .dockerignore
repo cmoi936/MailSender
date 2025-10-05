@@ -1,0 +1,56 @@
+# Dockerignore pour MailSender API
+
+# Fichiers et dossiers à exclure du contexte Docker
+
+# Dossiers de build
+**/bin/
+**/obj/
+**/out/
+
+# Fichiers de développement
+**/.vs/
+**/.vscode/
+**/.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+**/logs/
+**/*.log
+
+# Fichiers temporaires
+**/tmp/
+**/temp/
+
+# Fichiers de configuration sensibles
+appsettings.Development.json
+.env*
+*.pfx
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+.dockerignore
+
+# Documentation
+README.md
+**/*.md
+
+# Tests
+**/TestResults/
+
+# NuGet
+packages/
+*.nupkg
+
+# Node modules (si applicable)
+node_modules/
+
+# Fichiers OS
+.DS_Store
+Thumbs.db

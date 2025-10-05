@@ -1,23 +1,96 @@
-# MailSender API
+# ?? MailSender API
 
-API REST pour l'envoi d'emails via SMTP (Gmail).
+[![Build and Push Docker Image](https://github.com/cmoi936/MailSender/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/cmoi936/MailSender/actions/workflows/docker-publish.yml)
+[![Docker Image](https://img.shields.io/badge/docker-ghcr.io%2Fcmoi936%2Fmailsender-blue)](https://github.com/cmoi936/MailSender/pkgs/container/mailsender)
 
-## Configuration
+Une API REST simple et efficace pour envoyer des emails via SMTP, construite avec .NET 8 et entièrement containerisée.
 
-### 1. Configuration Gmail pour SMTP
+## ?? Démarrage rapide avec Docker
 
-Pour utiliser Gmail avec SMTP, vous devez :
+### Option 1: Utiliser l'image pré-construite (Recommandé)
 
-1. **Activer l'authentification à deux facteurs** sur votre compte Google
-2. **Générer un mot de passe d'application** :
-   - Allez dans les paramètres de votre compte Google
-   - Sécurité > Authentification à 2 facteurs > Mots de passe d'application
-   - Générez un nouveau mot de passe d'application pour "MailSender"
-   - Copiez le mot de passe généré (16 caractères)
+```bash
+# Télécharger et lancer en une commande
+docker run -d \
+  --name mailsender-api \
+  -p 5000:8080 \
+  -e SMTP__USERNAME="votre-email@gmail.com" \
+  -e SMTP__PASSWORD="votre-mot-de-passe-app" \
+  -e SMTP__FROMEMAIL="votre-email@gmail.com" \
+  ghcr.io/cmoi936/mailsender:latest
+```
 
-### 2. Configuration de l'application
+### Option 2: Avec Docker Compose
 
-Modifiez le fichier `appsettings.json` ou `appsettings.Development.json` :
+1. **Clonez le repository** :
+```bash
+git clone https://github.com/cmoi936/MailSender.git
+cd MailSender
+```
+
+2. **Configurez vos variables d'environnement** :
+```bash
+cp .env.example .env
+# Éditez .env avec vos vraies valeurs SMTP
+```
+
+3. **Déployez** :
+```bash
+# Windows
+.\deploy.ps1
+
+# Linux/macOS  
+./deploy.sh
+
+# Ou manuellement
+docker-compose -f docker-compose.production.yml up -d
+```
+
+## ??? Images Docker disponibles
+
+| Tag | Description | Plateforme |
+|-----|-------------|------------|
+| `latest` | Dernière version stable | `linux/amd64`, `linux/arm64` |
+| `v1.0.0` | Version taguée | `linux/amd64`, `linux/arm64` |
+| `master` | Branche master | `linux/amd64`, `linux/arm64` |
+
+Toutes les images sont disponibles sur : **`ghcr.io/cmoi936/mailsender`**
+
+## ?? Fonctionnalités
+
+- ? **API REST** simple pour l'envoi d'emails
+- ? **Support SMTP** (Gmail, Outlook, etc.)
+- ? **Containerisé** avec Docker
+- ? **Multi-architecture** (AMD64, ARM64)
+- ? **Health checks** intégrés
+- ? **Support CC/BCC** (plusieurs destinataires)
+- ? **Messages HTML et texte**
+- ? **Logging** configuré
+- ? **Sécurisé** (utilisateur non-root)
+- ? **CI/CD** automatisé avec GitHub Actions
+- ? **Documentation Swagger/OpenAPI**
+
+## ?? Configuration
+
+### Variables d'environnement requises
+
+| Variable | Description | Exemple |
+|----------|-------------|---------|
+| `SMTP__USERNAME` | Votre email SMTP | `user@gmail.com` |
+| `SMTP__PASSWORD` | Mot de passe d'application | `abcd efgh ijkl mnop` |
+| `SMTP__FROMEMAIL` | Email expéditeur | `user@gmail.com` |
+
+### Variables optionnelles
+
+| Variable | Défaut | Description |
+|----------|---------|-------------|
+| `SMTP__HOST` | `smtp.gmail.com` | Serveur SMTP |
+| `SMTP__PORT` | `587` | Port SMTP |
+| `SMTP__FROMNAME` | `MailSender API` | Nom expéditeur |
+| `SMTP__USESSL` | `true` | Utiliser SSL/TLS |
+| `SMTP__TIMEOUTMS` | `30000` | Timeout en ms |
+
+### Configuration appsettings.json (développement local)
 
 ```json
 {
@@ -34,57 +107,170 @@ Modifiez le fichier `appsettings.json` ou `appsettings.Development.json` :
 }
 ```
 
-### 3. Variables d'environnement (Production)
+## ?? Configuration Gmail
 
-Pour la production, utilisez des variables d'environnement :
+1. **Activez l'authentification à 2 facteurs** sur votre compte Google
+2. **Générez un mot de passe d'application** :
+   - Google Account ? Sécurité ? Authentification à 2 facteurs
+   - Mots de passe d'application ? Créer un nouveau mot de passe pour "MailSender"
+   - Copiez le mot de passe généré (16 caractères)
+   - Utilisez ce mot de passe dans `SMTP__PASSWORD`
 
-```bash
-SMTP__USERNAME=votre-email@gmail.com
-SMTP__PASSWORD=votre-mot-de-passe-application
-SMTP__FROMNAME="Votre Nom"
-SMTP__FROMEMAIL=votre-email@gmail.com
-```
-
-## Endpoints
+## ?? Utilisation de l'API
 
 ### Health Check
-- **GET** `/api/health`
-- Retourne le statut de l'application
+```bash
+GET http://localhost:5000/api/health
+```
 
-### Envoi d'email
-- **POST** `/api/email/send`
-- Body:
-```json
+### Envoyer un email
+```bash
+POST http://localhost:5000/api/email/send
+Content-Type: application/json
+
 {
   "to": "destinataire@example.com",
-  "cc": "copie@example.com", // optionnel (plusieurs emails séparés par ;)
-  "bcc": "copie-cachee@example.com", // optionnel (plusieurs emails séparés par ;)
-  "subject": "Sujet de l'email",
-  "message": "Contenu de l'email"
+  "cc": "copie@example.com", // optionnel (plusieurs emails séparés par ;
+  "bcc": "copie-cachee@example.com", // optionnel (plusieurs emails séparés par ;
+  "subject": "Hello from MailSender!",
+  "message": "Ceci est un message de test."
 }
 ```
 
-## Utilisation
+### Exemple avec curl
+```bash
+curl -X POST http://localhost:5000/api/email/send \
+  -H "Content-Type: application/json" \
+  -d '{
+    "to": "test@example.com",
+    "subject": "Test depuis Docker",
+    "message": "Hello World depuis MailSender API!"
+  }'
+```
 
-1. Configurez vos paramètres SMTP dans `appsettings.json`
-2. Démarrez l'application : `dotnet run`
-3. Ouvrez votre navigateur sur `https://localhost:7xxx` pour accéder à Swagger UI
-4. Testez l'endpoint `/api/health` pour vérifier que l'API fonctionne
-5. Utilisez l'endpoint `/api/email/send` pour envoyer des emails
+## ??? Développement local
 
-## Fonctionnalités
+### Build avec .NET CLI
+```bash
+# Cloner le repo
+git clone https://github.com/cmoi936/MailSender.git
+cd MailSender
 
-- ? Envoi d'emails via SMTP Gmail
-- ? Support CC et BCC (plusieurs destinataires séparés par ;)
-- ? Messages en texte brut et HTML
-- ? Configuration flexible via appsettings.json
-- ? Logging détaillé
-- ? Health check endpoint
-- ? Documentation Swagger/OpenAPI
+# Restaurer les dépendances
+dotnet restore
 
-## Sécurité
+# Build et run
+dotnet build
+dotnet run
 
-- Utilisez toujours des mots de passe d'application Gmail (pas votre mot de passe principal)
-- Ne commitez jamais vos identifiants dans le code source
-- Utilisez des variables d'environnement ou Azure Key Vault en production
-- Activez HTTPS en production
+# L'API sera disponible sur https://localhost:7xxx
+```
+
+### Build avec Docker
+```bash
+# Build local
+docker build -t mailsender-local .
+
+# Run local
+docker run -p 5000:8080 mailsender-local
+```
+
+### Structure du projet
+```
+MailSender/
+??? Controllers/         # Contrôleurs API
+??? Services/           # Services métier (EmailService)
+??? Models/             # Modèles de données (EmailRequest)
+??? Dockerfile          # Configuration Docker
+??? docker-compose.yml  # Configuration développement
+??? docker-compose.production.yml  # Configuration production
+??? .github/workflows/  # CI/CD GitHub Actions
+??? deploy.ps1         # Script de déploiement Windows
+??? deploy.sh          # Script de déploiement Linux/macOS
+```
+
+## ?? Déploiement
+
+### Déploiement automatique
+
+Le projet utilise **GitHub Actions** pour automatiser :
+- ? Build multi-architecture (AMD64, ARM64)
+- ? Tests automatisés
+- ? Publication sur GitHub Container Registry
+- ? Signature cryptographique des images avec Cosign
+- ? Versioning automatique avec les tags Git
+
+### Créer une nouvelle version
+```bash
+# Créer et pousser un tag
+git tag v1.0.0
+git push origin v1.0.0
+
+# L'image sera automatiquement construite et publiée sur ghcr.io
+```
+
+### Déploiement manuel sur serveur
+```bash
+# Télécharger la dernière version
+docker pull ghcr.io/cmoi936/mailsender:latest
+
+# Utiliser le script de déploiement
+.\deploy.ps1 latest
+
+# Ou Docker Compose directement
+docker-compose -f docker-compose.production.yml up -d
+```
+
+## ?? Monitoring et Debugging
+
+```bash
+# Logs en temps réel
+docker logs -f mailsender-api
+
+# Statistiques de performance
+docker stats mailsender-api
+
+# Health check
+curl http://localhost:5000/api/health
+
+# Accéder à Swagger UI (en développement)
+# http://localhost:5000/swagger
+```
+
+## ?? Sécurité
+
+- ? Utilisateur non-root dans le conteneur Docker
+- ? Variables d'environnement pour les secrets
+- ? Support HTTPS (configurable)
+- ? Images Docker signées cryptographiquement
+- ? Vulnérabilités scannées automatiquement
+- ?? **Important** : N'utilisez jamais votre mot de passe Gmail principal
+- ?? **Important** : Utilisez toujours des mots de passe d'application
+
+## ?? Documentation complète
+
+- ?? **Guide de déploiement Docker** : [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)
+- ?? **Images Docker** : [GitHub Container Registry](https://github.com/cmoi936/MailSender/pkgs/container/mailsender)
+- ?? **CI/CD Pipeline** : [GitHub Actions](https://github.com/cmoi936/MailSender/actions)
+
+## ?? Contribution
+
+1. Fork le projet
+2. Créez une branche feature (`git checkout -b feature/AmazingFeature`)
+3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request
+
+## ?? Support
+
+- ?? **Documentation** : Voir les fichiers de documentation dans le repo
+- ?? **Issues** : [GitHub Issues](https://github.com/cmoi936/MailSender/issues)
+- ?? **Discussions** : [GitHub Discussions](https://github.com/cmoi936/MailSender/discussions)
+
+## ?? Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+---
+
+**Développé avec ?? et .NET 8**

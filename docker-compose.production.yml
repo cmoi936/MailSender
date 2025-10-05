@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mailsender-api:
+    # Utiliser l'image depuis GitHub Container Registry
+    # Remplacez 'cmoi936/mailsender' par votre nom d'utilisateur/repo
+    image: ghcr.io/cmoi936/mailsender:latest
+    
+    container_name: mailsender-api
+    ports:
+      - "5000:8080"  # Port externe:Port interne
+    environment:
+      # Configuration ASP.NET Core
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      
+      # Configuration SMTP (À MODIFIER avec vos vraies valeurs)
+      - SMTP__HOST=smtp.gmail.com
+      - SMTP__PORT=587
+      - SMTP__USERNAME=${SMTP_USERNAME:-your-email@gmail.com}
+      - SMTP__PASSWORD=${SMTP_PASSWORD:-your-app-password}
+      - SMTP__USESSL=true
+      - SMTP__FROMNAME=${SMTP_FROMNAME:-MailSender API}
+      - SMTP__FROMEMAIL=${SMTP_FROMEMAIL:-your-email@gmail.com}
+      - SMTP__TIMEOUTMS=30000
+      
+      # Configuration de logging
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft.AspNetCore=Warning
+    
+    # Redémarrage automatique
+    restart: unless-stopped
+    
+    # Limites de ressources (optionnel)
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    
+    # Health check
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
