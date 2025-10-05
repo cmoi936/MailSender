@@ -1,22 +1,22 @@
-# Guide de Déploiement Docker - MailSender API
+ï»¿# Guide de DÃ©ploiement Docker - MailSender API
 
-## ?? Déploiement avec Docker
+## ğŸš€ DÃ©ploiement avec Docker
 
-### Prérequis
-- Docker installé
-- Docker Compose (optionnel mais recommandé)
-- Compte Gmail avec mot de passe d'application généré
+### PrÃ©requis
+- Docker installÃ©
+- Docker Compose (optionnel mais recommandÃ©)
+- Compte Gmail avec mot de passe d'application gÃ©nÃ©rÃ©
 
-### ?? Images Docker Disponibles
+### ğŸ“¦ Images Docker Disponibles
 
-L'image Docker est automatiquement construite et publiée sur GitHub Container Registry :
+L'image Docker est automatiquement construite et publiÃ©e sur GitHub Container Registry :
 - **Production** : `ghcr.io/cmoi936/mailsender:latest`
-- **Versions taguées** : `ghcr.io/cmoi936/mailsender:v1.0.0`
+- **Versions taguÃ©es** : `ghcr.io/cmoi936/mailsender:v1.0.0`
 - **Branches** : `ghcr.io/cmoi936/mailsender:master`
 
-### ?? Déploiement rapide avec l'image pré-construite
+### âš¡ DÃ©ploiement rapide avec l'image prÃ©-construite
 
-#### 1. Télécharger l'image depuis GitHub Container Registry
+#### 1. TÃ©lÃ©charger l'image depuis GitHub Container Registry
 ```bash
 docker pull ghcr.io/cmoi936/mailsender:latest
 ```
@@ -33,18 +33,18 @@ docker run -d \
   ghcr.io/cmoi936/mailsender:latest
 ```
 
-### ?? Déploiement avec Docker Compose (Recommandé)
+### ğŸ³ DÃ©ploiement avec Docker Compose (RecommandÃ©)
 
 #### 1. Configuration des variables d'environnement
 ```bash
 # Copiez le fichier d'exemple
 cp .env.example .env
 
-# Éditez le fichier .env avec vos vraies valeurs
+# Ã‰ditez le fichier .env avec vos vraies valeurs
 nano .env
 ```
 
-#### 2. Déploiement automatisé
+#### 2. DÃ©ploiement automatisÃ©
 ```bash
 # Avec le script PowerShell (Windows)
 .\deploy.ps1
@@ -56,7 +56,7 @@ nano .env
 docker-compose -f docker-compose.production.yml up -d
 ```
 
-### ??? Build local (Développement uniquement)
+### ğŸ”§ Build local (DÃ©veloppement uniquement)
 
 Si vous voulez construire l'image localement :
 
@@ -65,76 +65,76 @@ Si vous voulez construire l'image localement :
 docker build -t mailsender-api .
 ```
 
-#### 2. Utilisation du docker-compose de développement
+#### 2. Utilisation du docker-compose de dÃ©veloppement
 ```bash
 docker-compose up -d
 ```
 
-### ?? Variables d'environnement importantes
+### âš™ï¸ Variables d'environnement importantes
 
-| Variable | Description | Valeur par défaut | Obligatoire |
+| Variable | Description | Valeur par dÃ©faut | Obligatoire |
 |----------|-------------|-------------------|-------------|
-| `SMTP__USERNAME` | Email Gmail | | ? |
-| `SMTP__PASSWORD` | Mot de passe d'application Gmail | | ? |
-| `SMTP__FROMNAME` | Nom de l'expéditeur | "MailSender API" | ? |
-| `SMTP__FROMEMAIL` | Email de l'expéditeur | | ? |
-| `SMTP__HOST` | Serveur SMTP | smtp.gmail.com | ? |
-| `SMTP__PORT` | Port SMTP | 587 | ? |
-| `SMTP__USESSL` | Utiliser SSL | true | ? |
-| `SMTP__TIMEOUTMS` | Timeout en ms | 30000 | ? |
+| `SMTP__USERNAME` | Email Gmail | | âœ… |
+| `SMTP__PASSWORD` | Mot de passe d'application Gmail | | âœ… |
+| `SMTP__FROMNAME` | Nom de l'expÃ©diteur | "MailSender API" | âŒ |
+| `SMTP__FROMEMAIL` | Email de l'expÃ©diteur | | âœ… |
+| `SMTP__HOST` | Serveur SMTP | smtp.gmail.com | âŒ |
+| `SMTP__PORT` | Port SMTP | 587 | âŒ |
+| `SMTP__USESSL` | Utiliser SSL | true | âŒ |
+| `SMTP__TIMEOUTMS` | Timeout en ms | 30000 | âŒ |
 
-### ?? Configuration Gmail
+### ğŸ“§ Configuration Gmail
 
-1. **Activez l'authentification à 2 facteurs** sur votre compte Google
-2. **Générez un mot de passe d'application** :
-   - Allez dans les paramètres Google ? Sécurité
-   - Authentification à 2 facteurs ? Mots de passe d'application
-   - Créez un nouveau mot de passe pour "MailSender"
+1. **Activez l'authentification Ã  2 facteurs** sur votre compte Google
+2. **GÃ©nÃ©rez un mot de passe d'application** :
+   - Allez dans les paramÃ¨tres Google â†’ SÃ©curitÃ©
+   - Authentification Ã  2 facteurs â†’ Mots de passe d'application
+   - CrÃ©ez un nouveau mot de passe pour "MailSender"
    - Utilisez ce mot de passe dans `SMTP__PASSWORD`
 
-### ?? Health Check
+### ğŸ¥ Health Check
 
-L'API expose un endpoint de santé :
+L'API expose un endpoint de santÃ© :
 ```bash
-# Vérifier que l'API fonctionne
+# VÃ©rifier que l'API fonctionne
 curl http://localhost:5000/api/health
 ```
 
-### ?? Surveillance et Logging
+### ğŸ“Š Surveillance et Logging
 
 ```bash
-# Voir les logs en temps réel
+# Voir les logs en temps rÃ©el
 docker-compose -f docker-compose.production.yml logs -f mailsender-api
 
-# Voir l'état des conteneurs
+# Voir l'Ã©tat des conteneurs
 docker-compose -f docker-compose.production.yml ps
 
 # Statistiques de ressources
 docker stats mailsender-api
 ```
 
-### ?? CI/CD et Publication Automatique
+### ğŸ”„ CI/CD et Publication Automatique
 
-L'image Docker est automatiquement construite et publiée via **GitHub Actions** :
+L'image Docker est automatiquement construite et publiÃ©e via **GitHub Actions** :
 
-- ? **Sur chaque push** vers `master` ? `ghcr.io/cmoi936/mailsender:latest`
-- ? **Sur chaque tag** `v*.*.*` ? `ghcr.io/cmoi936/mailsender:v1.0.0`
-- ? **Support multi-architecture** (AMD64, ARM64)
-- ? **Signature cryptographique** avec Cosign
-- ? **Cache optimisé** pour des builds rapides
+- âœ… **Sur chaque push** vers `master` â†’ `ghcr.io/cmoi936/mailsender:latest`
+- ğŸ·ï¸ **Sur chaque tag** `v*.*.*` â†’ `ghcr.io/cmoi936/mailsender:v1.0.0`
+- ğŸŒ **Support multi-architecture** (AMD64, ARM64)
+- ğŸ” **Signature cryptographique** avec Cosign
+- ğŸš€ **Cache optimisÃ©** pour des builds rapides
 
 #### Pour publier une nouvelle version :
 ```bash
-# Créer et pousser un tag
+# CrÃ©er et pousser un tag
 git tag v1.0.0
 git push origin v1.0.0
 
-# L'image sera automatiquement construite et publiée
+# L'image sera automatiquement construite et publiÃ©e
 ```
 
-### ?? Authentification GitHub Container Registry
+### ğŸ”‘ Authentification GitHub Container Registry
 
-Pour télécharger des images privées :
+Pour tÃ©lÃ©charger des images privÃ©es :
 ```bash
 # Se connecter avec un Personal Access Token
 echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
@@ -143,17 +143,17 @@ echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
 docker-compose -f docker-compose.production.yml pull
 ```
 
-### ??? Commandes utiles
+### ğŸ’¡ Commandes utiles
 
 ```bash
-# Utiliser une version spécifique
+# Utiliser une version spÃ©cifique
 docker pull ghcr.io/cmoi936/mailsender:v1.0.0
 
-# Mise à jour vers la dernière version
+# Mise Ã  jour vers la derniÃ¨re version
 docker-compose -f docker-compose.production.yml pull
 docker-compose -f docker-compose.production.yml up -d
 
-# Redémarrer uniquement l'API
+# RedÃ©marrer uniquement l'API
 docker-compose -f docker-compose.production.yml restart mailsender-api
 
 # Voir les logs d'erreur uniquement
@@ -166,9 +166,9 @@ docker exec -it mailsender-api /bin/bash
 docker image prune -a
 ```
 
-### ?? Test de l'API
+### ğŸ§ª Test de l'API
 
-Une fois déployée, testez l'API :
+Une fois dÃ©ployÃ©e, testez l'API :
 
 ```bash
 # Health Check
@@ -180,36 +180,36 @@ curl -X POST http://localhost:5000/api/email/send \
   -d '{
     "to": "destinataire@example.com",
     "subject": "Test depuis Docker",
-    "message": "Ceci est un test depuis l API containerisée !"
+    "message": "Ceci est un test depuis l API containerisÃ©e !"
   }'
 ```
 
-### ?? Sécurité
+### ğŸ›¡ï¸ SÃ©curitÃ©
 
-- ? L'API s'exécute avec un utilisateur non-root
-- ? Variables d'environnement pour les secrets
-- ? Port interne différent du port externe
-- ? Health check configuré
-- ? Limites de ressources définies
-- ? Images signées cryptographiquement
-- ? Vulnérabilités scannées automatiquement
+- âœ… L'API s'exÃ©cute avec un utilisateur non-root
+- ğŸ”’ Variables d'environnement pour les secrets
+- ğŸ”Œ Port interne diffÃ©rent du port externe
+- ğŸ¥ Health check configurÃ©
+- ğŸ“Š Limites de ressources dÃ©finies
+- ğŸ” Images signÃ©es cryptographiquement
+- ğŸ” VulnÃ©rabilitÃ©s scannÃ©es automatiquement
 
-### ?? Mise à l'échelle
+### ğŸ“ˆ Mise Ã  l'Ã©chelle
 
-Pour déployer plusieurs instances :
+Pour dÃ©ployer plusieurs instances :
 ```bash
 docker-compose -f docker-compose.production.yml up -d --scale mailsender-api=3
 ```
 
-### ?? Mise à jour et Rollback
+### ğŸ”„ Mise Ã  jour et Rollback
 
 ```bash
-# Mise à jour automatique vers la dernière version
+# Mise Ã  jour automatique vers la derniÃ¨re version
 .\deploy.ps1 latest
 
-# Utiliser une version spécifique
+# Utiliser une version spÃ©cifique
 .\deploy.ps1 v1.0.0
 
-# Rollback vers une version précédente
+# Rollback vers une version prÃ©cÃ©dente
 docker-compose -f docker-compose.production.yml down
 docker run -d --name mailsender-api -p 5000:8080 ghcr.io/cmoi936/mailsender:v0.9.0
