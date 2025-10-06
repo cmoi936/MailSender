@@ -1,9 +1,9 @@
-name: Build and Push Docker Image
+ï»¿name: Build and Push Docker Image
 
 on:
   push:
     branches: [ "master", "main" ]
-    # Déclencher aussi sur les tags pour les versions
+    # DÃ©clencher aussi sur les tags pour les versions
     tags: [ "v*.*.*" ]
   pull_request:
     branches: [ "master", "main" ]
@@ -20,19 +20,13 @@ jobs:
     permissions:
       contents: read
       packages: write
-      # Ceci est utilisé pour compléter l'attestation d'identité
+      # Ceci est utilisÃ© pour complÃ©ter l'attestation d'identitÃ©
       # avec les actions/attest-build-provenance
       id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install cosign
-        if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@v3
-        with:
-          cosign-release: 'v2.1.1'
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -47,7 +41,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Extraire les métadonnées (tags, labels) pour Docker
+      # Extraire les mÃ©tadonnÃ©es (tags, labels) pour Docker
       # https://github.com/docker/metadata-action
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -74,14 +68,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      # Signer l'image du conteneur avec cosign
-      # https://github.com/sigstore/cosign
-      - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
-        env:
-          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: ${{ steps.meta.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        # Cette étape utilise l'identité basée sur OIDC du signataire pour signer l'image du conteneur.
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
