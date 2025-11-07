@@ -1,7 +1,7 @@
-using MailKit.Net.Smtp;
+ï»¿using MailKit.Net.Smtp;
 using MailKit.Security;
-using MimeKit;
 using MailSender.Models;
+using MimeKit;
 
 namespace MailSender.Services
 {
@@ -26,7 +26,7 @@ namespace MailSender.Services
         {
             _logger = logger;
             _configuration = configuration;
-            
+
             // Configuration SMTP pour Gmail
             _host = _configuration["Smtp:Host"] ?? "smtp.gmail.com";
             _port = int.Parse(_configuration["Smtp:Port"] ?? "587");
@@ -42,10 +42,10 @@ namespace MailSender.Services
             try
             {
                 var message = CreateMessage(emailRequest);
-                
+
                 using var client = new SmtpClient();
-                
-                // Configuration du timeout si spécifié
+
+                // Configuration du timeout si spÃ©cifiÃ©
                 var timeoutMs = int.Parse(_configuration["Smtp:TimeoutMs"] ?? "30000");
                 client.Timeout = timeoutMs;
 
@@ -69,7 +69,7 @@ namespace MailSender.Services
                 var result = await client.SendAsync(message);
                 await client.DisconnectAsync(true);
 
-                _logger.LogInformation("Email sent successfully to {To} with subject: {Subject}", 
+                _logger.LogInformation("Email sent successfully to {To} with subject: {Subject}",
                     emailRequest.To, emailRequest.Subject);
 
                 return new EmailResponse
@@ -93,13 +93,13 @@ namespace MailSender.Services
         private MimeMessage CreateMessage(EmailRequest emailRequest)
         {
             var message = new MimeMessage();
-            
-            // Expéditeur
+
+            // ExpÃ©diteur
             message.From.Add(new MailboxAddress(_fromName, _fromEmail));
-            
+
             // Destinataire principal
             message.To.Add(MailboxAddress.Parse(emailRequest.To));
-            
+
             // Copie (CC)
             if (!string.IsNullOrEmpty(emailRequest.Cc))
             {
@@ -109,8 +109,8 @@ namespace MailSender.Services
                     message.Cc.Add(MailboxAddress.Parse(cc.Trim()));
                 }
             }
-            
-            // Copie cachée (BCC)
+
+            // Copie cachÃ©e (BCC)
             if (!string.IsNullOrEmpty(emailRequest.Bcc))
             {
                 var bccAddresses = emailRequest.Bcc.Split(';', StringSplitOptions.RemoveEmptyEntries);
@@ -119,19 +119,18 @@ namespace MailSender.Services
                     message.Bcc.Add(MailboxAddress.Parse(bcc.Trim()));
                 }
             }
-            
+
             // Sujet
             message.Subject = emailRequest.Subject;
-            
+
             // Corps du message
             var bodyBuilder = new BodyBuilder
             {
-                TextBody = emailRequest.Message,
-                HtmlBody = $"<p>{emailRequest.Message.Replace("\n", "<br>")}</p>"
+                HtmlBody = emailRequest.Message.ToString()
             };
-            
+
             message.Body = bodyBuilder.ToMessageBody();
-            
+
             return message;
         }
     }

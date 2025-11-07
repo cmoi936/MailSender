@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove=".github\**" />
+    <Compile Remove="MailSender.Tests\**" />
+    <Content Remove=".github\**" />
+    <Content Remove="MailSender.Tests\**" />
+    <EmbeddedResource Remove=".github\**" />
+    <EmbeddedResource Remove="MailSender.Tests\**" />
+    <None Remove=".github\**" />
+    <None Remove="MailSender.Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.14.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+  </ItemGroup>
+
+</Project>
