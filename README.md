@@ -36,15 +36,15 @@ cp src/.env.example src/.env
 
 3. **Deploy**:
 ```bash
-# Windows
+# Windows (from repository root)
 cd src
 .\deploy.ps1
 
-# Linux/macOS  
+# Linux/macOS (from repository root)
 cd src
 ./deploy.sh
 
-# Or manually
+# Or manually (from repository root)
 docker-compose -f src/docker-compose.production.yml up -d
 ```
 
@@ -52,8 +52,7 @@ docker-compose -f src/docker-compose.production.yml up -d
 
 - ✅ **REST API** for sending emails
 - ✅ **SMTP Support** (Gmail, Outlook, etc.)
-- ✅ **Dockerized** with multi-architecture support
-- ✅ **Multi-architecture** (AMD64, ARM64)
+- ✅ **Dockerized** with multi-architecture support (AMD64, ARM64)
 - ✅ **Health checks** built-in
 - ✅ **CC/BCC Support** (multiple recipients)
 - ✅ **HTML and plain text** messages
@@ -232,11 +231,11 @@ git push origin v1.0.0
 # Pull the latest version
 docker pull ghcr.io/cmoi936/mailsender:latest
 
-# Use the deployment script (from src directory)
+# Use the deployment script (from repository root)
 cd src
 .\deploy.ps1 latest
 
-# Or use Docker Compose directly
+# Or use Docker Compose directly (from repository root)
 docker-compose -f src/docker-compose.production.yml up -d
 ```
 
