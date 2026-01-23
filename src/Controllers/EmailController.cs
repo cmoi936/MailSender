@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MailSender.Models;
+using MailSender.Core.Models;
 using MailSender.Services;
 
 namespace MailSender.Controllers
@@ -20,8 +20,8 @@ namespace MailSender.Controllers
         /// <summary>
         /// Envoie un email via SMTP
         /// </summary>
-        /// <param name="emailRequest">Les détails de l'email à envoyer</param>
-        /// <returns>Le résultat de l'envoi</returns>
+        /// <param name="emailRequest">Les dï¿½tails de l'email ï¿½ envoyer</param>
+        /// <returns>Le rï¿½sultat de l'envoi</returns>
         [HttpPost("send")]
         public async Task<ActionResult<EmailResponse>> SendEmail([FromBody] EmailRequest emailRequest)
         {

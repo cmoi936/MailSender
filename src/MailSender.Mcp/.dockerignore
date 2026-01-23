@@ -1,0 +1,51 @@
+# Dockerignore pour MailSender MCP Server
+
+# Fichiers et dossiers à exclure du contexte Docker
+
+# Dossiers de build
+**/bin/
+**/obj/
+**/out/
+
+# Fichiers de développement
+**/.vs/
+**/.vscode/
+**/.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+**/logs/
+**/*.log
+
+# Fichiers temporaires
+**/tmp/
+**/temp/
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+.dockerignore
+
+# Documentation
+README.md
+**/*.md
+
+# Tests
+**/TestResults/
+
+# NuGet
+packages/
+*.nupkg
+
+# Node modules (si applicable)
+node_modules/
+
+# Fichiers OS
+.DS_Store
+Thumbs.db

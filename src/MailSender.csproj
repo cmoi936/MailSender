@@ -9,17 +9,28 @@
   <ItemGroup>
     <Compile Remove=".github\**" />
     <Compile Remove="MailSender.Tests\**" />
+    <Compile Remove="MailSender.Core\**" />
+    <Compile Remove="MailSender.Mcp\**" />
     <Content Remove=".github\**" />
     <Content Remove="MailSender.Tests\**" />
+    <Content Remove="MailSender.Core\**" />
+    <Content Remove="MailSender.Mcp\**" />
     <EmbeddedResource Remove=".github\**" />
     <EmbeddedResource Remove="MailSender.Tests\**" />
+    <EmbeddedResource Remove="MailSender.Core\**" />
+    <EmbeddedResource Remove="MailSender.Mcp\**" />
     <None Remove=".github\**" />
     <None Remove="MailSender.Tests\**" />
+    <None Remove="MailSender.Core\**" />
+    <None Remove="MailSender.Mcp\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="4.14.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="MailSender.Core\MailSender.Core.csproj" />
   </ItemGroup>
 
 </Project>
