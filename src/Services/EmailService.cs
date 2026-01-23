@@ -1,5 +1,7 @@
 using MailSender.Core.Models;
 using MailSender.Core.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using CoreEmailService = MailSender.Core.Services.SmtpEmailService;
 
 namespace MailSender.Services
@@ -13,7 +15,7 @@ namespace MailSender.Services
     {
         private readonly CoreEmailService _coreEmailService;
 
-        public SmtpEmailService(ILogger<SmtpEmailService> logger, IConfiguration configuration)
+        public SmtpEmailService(ILogger<SmtpEmailService> logger, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             // Build SmtpSettings from configuration
             var settings = new SmtpSettings
@@ -28,8 +30,8 @@ namespace MailSender.Services
                 TimeoutMs = int.Parse(configuration["Smtp:TimeoutMs"] ?? "30000")
             };
 
-            // Create the core email service with a compatible logger
-            var coreLogger = logger as ILogger<CoreEmailService>;
+            // Create the core email service with a properly typed logger
+            var coreLogger = loggerFactory.CreateLogger<CoreEmailService>();
             _coreEmailService = new CoreEmailService(settings, coreLogger);
         }
 

@@ -50,7 +50,8 @@ namespace MailSender.Tests.Services
 
             _emailService = new SmtpEmailService(
                 NullLogger<SmtpEmailService>.Instance,
-                _mockConfiguration.Object);
+                _mockConfiguration.Object,
+                NullLoggerFactory.Instance);
         }
 
         /// <summary>
