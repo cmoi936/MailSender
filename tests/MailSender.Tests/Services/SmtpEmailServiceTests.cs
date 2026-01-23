@@ -1,4 +1,4 @@
-﻿using MailSender.Models;
+﻿using MailSender.Core.Models;
 using MailSender.Services;
 using MailSender.Tests.Helpers;
 using Microsoft.Extensions.Configuration;
