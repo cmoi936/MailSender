@@ -1,4 +1,4 @@
-﻿using MailSender.Models;
+﻿using MailSender.Core.Models;
 using MailSender.Services;
 using MailSender.Tests.Helpers;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +50,8 @@ namespace MailSender.Tests.Services
 
             _emailService = new SmtpEmailService(
                 NullLogger<SmtpEmailService>.Instance,
-                _mockConfiguration.Object);
+                _mockConfiguration.Object,
+                NullLoggerFactory.Instance);
         }
 
         /// <summary>

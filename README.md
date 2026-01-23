@@ -1,13 +1,14 @@
-# 📧 MailSender API
+# 📧 MailSender
 
 [![Build and Push Docker Image](https://github.com/cmoi936/MailSender/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/cmoi936/MailSender/actions/workflows/docker-publish.yml)
 [![Docker Image](https://img.shields.io/badge/docker-ghcr.io%2Fcmoi936%2Fmailsender-blue)](https://github.com/cmoi936/MailSender/pkgs/container/mailsender)
+[![Docker MCP Image](https://img.shields.io/badge/docker-ghcr.io%2Fcmoi936%2Fmailsender--mcp-green)](https://github.com/cmoi936/MailSender/pkgs/container/mailsender-mcp)
 
-A simple and efficient REST API for sending emails via SMTP, built with .NET 8 and fully containerized with Docker.
+A simple and efficient solution for sending emails via SMTP, available as both a REST API and an MCP (Model Context Protocol) server. Built with .NET 8 and fully containerized with Docker.
 
 ## 🚀 Quick Start
 
-### Option 1: Using Pre-built Docker Image (Recommended)
+### REST API - Using Pre-built Docker Image (Recommended)
 
 ```bash
 # Download and run in one command
@@ -19,6 +20,19 @@ docker run -d \
   -e SMTP__FROMEMAIL="your-email@gmail.com" \
   ghcr.io/cmoi936/mailsender:latest
 ```
+
+### MCP Server - Using Pre-built Docker Image
+
+```bash
+# Download and run the MCP server
+docker run -i \
+  -e SMTP__USERNAME="your-email@gmail.com" \
+  -e SMTP__PASSWORD="your-app-password" \
+  -e SMTP__FROMEMAIL="your-email@gmail.com" \
+  ghcr.io/cmoi936/mailsender-mcp:latest
+```
+
+The MCP server uses stdio transport for communication with AI assistants and tools.
 
 ### Option 2: Using Docker Compose
 
@@ -51,6 +65,7 @@ docker-compose -f src/docker-compose.production.yml up -d
 ## 📋 Features
 
 - ✅ **REST API** for sending emails
+- ✅ **MCP Server** for AI integration (Model Context Protocol)
 - ✅ **SMTP Support** (Gmail, Outlook, etc.)
 - ✅ **Dockerized** with multi-architecture support (AMD64, ARM64)
 - ✅ **Health checks** built-in
@@ -60,8 +75,11 @@ docker-compose -f src/docker-compose.production.yml up -d
 - ✅ **Secure** (non-root user in container)
 - ✅ **CI/CD** automated with GitHub Actions
 - ✅ **Swagger/OpenAPI** documentation
+- ✅ **Shared Core library** for code reuse
 
 ## 🏗️ Available Docker Images
+
+### REST API Image
 
 | Tag | Description | Platform |
 |-----|-------------|----------|
@@ -69,7 +87,17 @@ docker-compose -f src/docker-compose.production.yml up -d
 | `v1.0.0` | Tagged version | `linux/amd64`, `linux/arm64` |
 | `master` | Master branch | `linux/amd64`, `linux/arm64` |
 
-All images are available at: **`ghcr.io/cmoi936/mailsender`**
+Available at: **`ghcr.io/cmoi936/mailsender`**
+
+### MCP Server Image
+
+| Tag | Description | Platform |
+|-----|-------------|----------|
+| `latest` | Latest stable version | `linux/amd64`, `linux/arm64` |
+| `v1.0.0` | Tagged version | `linux/amd64`, `linux/arm64` |
+| `master` | Master branch | `linux/amd64`, `linux/arm64` |
+
+Available at: **`ghcr.io/cmoi936/mailsender-mcp`**
 
 ## 🔧 Configuration
 
@@ -132,6 +160,44 @@ curl -X POST http://localhost:5000/api/email/send \
   }'
 ```
 
+## 🤖 MCP Server Usage
+
+The MCP (Model Context Protocol) server allows AI assistants to send emails. It exposes a `SendEmail` tool that can be used by any MCP-compatible client.
+
+### Available Tools
+
+#### SendEmail
+
+Send an email via SMTP.
+
+**Parameters:**
+- `to` (required): Recipient email address
+- `subject` (required): Email subject
+- `message` (required): Email message body (can be HTML)
+- `cc` (optional): CC recipients, separated by semicolons
+- `bcc` (optional): BCC recipients, separated by semicolons
+
+### Integration with AI Assistants
+
+To integrate the MCP server with your AI assistant, configure it to use the Docker image:
+
+```json
+{
+  "mcpServers": {
+    "mailsender": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "SMTP__USERNAME=your-email@gmail.com",
+        "-e", "SMTP__PASSWORD=your-app-password",
+        "-e", "SMTP__FROMEMAIL=your-email@gmail.com",
+        "ghcr.io/cmoi936/mailsender-mcp:latest"
+      ]
+    }
+  }
+}
+```
+
 ## 🛠️ Local Development
 
 ### Prerequisites
@@ -182,17 +248,26 @@ dotnet test --verbosity normal
 ```
 MailSender/
 ├── src/                           # Main application source
+│   ├── MailSender.Core/          # Shared core library
+│   │   ├── Models/               # Shared data models
+│   │   │   ├── EmailRequest.cs   # Email request model
+│   │   │   ├── EmailResponse.cs  # Email response model
+│   │   │   └── SmtpSettings.cs   # SMTP configuration
+│   │   └── Services/             # Shared services
+│   │       ├── IEmailService.cs  # Email service interface
+│   │       └── SmtpEmailService.cs # SMTP implementation
+│   ├── MailSender.Mcp/           # MCP Server project
+│   │   ├── Tools/                # MCP tools
+│   │   │   └── EmailTools.cs     # Email sending tool
+│   │   ├── Program.cs            # MCP server entry point
+│   │   └── Dockerfile            # MCP Docker configuration
 │   ├── Controllers/              # API controllers
 │   │   ├── EmailController.cs   # Email sending endpoint
 │   │   └── HealthController.cs  # Health check endpoint
-│   ├── Services/                 # Business logic services
-│   │   ├── IEmailService.cs     # Email service interface
-│   │   └── SmtpEmailService.cs  # SMTP implementation
-│   ├── Models/                   # Data models
-│   │   ├── EmailRequest.cs      # Email request model
-│   │   └── EmailResponse.cs     # Email response model
-│   ├── Program.cs                # Application entry point
-│   ├── Dockerfile                # Docker configuration
+│   ├── Services/                 # API-specific services
+│   │   └── EmailService.cs       # API email service wrapper
+│   ├── Program.cs                # API entry point
+│   ├── Dockerfile                # API Docker configuration
 │   ├── docker-compose.yml        # Development compose
 │   ├── docker-compose.production.yml  # Production compose
 │   ├── deploy.ps1                # Windows deployment script
