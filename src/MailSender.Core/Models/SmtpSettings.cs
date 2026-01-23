@@ -16,16 +16,20 @@ public class SmtpSettings
     /// </summary>
     public static SmtpSettings FromEnvironment()
     {
+        var portStr = Environment.GetEnvironmentVariable("SMTP__PORT");
+        var useSslStr = Environment.GetEnvironmentVariable("SMTP__USESSL");
+        var timeoutStr = Environment.GetEnvironmentVariable("SMTP__TIMEOUTMS");
+
         return new SmtpSettings
         {
             Host = Environment.GetEnvironmentVariable("SMTP__HOST") ?? "smtp.gmail.com",
-            Port = int.Parse(Environment.GetEnvironmentVariable("SMTP__PORT") ?? "587"),
+            Port = int.TryParse(portStr, out var port) ? port : 587,
             Username = Environment.GetEnvironmentVariable("SMTP__USERNAME"),
             Password = Environment.GetEnvironmentVariable("SMTP__PASSWORD"),
-            UseSsl = bool.Parse(Environment.GetEnvironmentVariable("SMTP__USESSL") ?? "true"),
+            UseSsl = bool.TryParse(useSslStr, out var useSsl) ? useSsl : true,
             FromName = Environment.GetEnvironmentVariable("SMTP__FROMNAME") ?? "MailSender",
             FromEmail = Environment.GetEnvironmentVariable("SMTP__FROMEMAIL"),
-            TimeoutMs = int.Parse(Environment.GetEnvironmentVariable("SMTP__TIMEOUTMS") ?? "30000")
+            TimeoutMs = int.TryParse(timeoutStr, out var timeout) ? timeout : 30000
         };
     }
 }
